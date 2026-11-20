@@ -2,7 +2,7 @@ export const examples = [
   {
     id: 'gen',
     label: 'generate.py',
-    code: 'import asyncio\n\nfrom aiollm.providers.openai import OpenAIClient\n\n\nasync def main() -> None:\n    async with OpenAIClient() as client:  # OPENAI_API_KEY\n        response = await client.generation.create(\n            model="gpt-6-astra",\n            input="Explain asyncio in one line",\n            instructions="Be brief",\n            max_output_tokens=64,\n        )\n\n    print(response.text)\n    print(response.usage)  # shared TokenUsage\n    print(response.raw)    # OpenAI\'s own Response\n\n\nasyncio.run(main())',
+    code: 'import asyncio\n\nfrom aiollm_openai import OpenAIClient\n\n\nasync def main() -> None:\n    async with OpenAIClient() as client:  # OPENAI_API_KEY\n        response = await client.generation.create(\n            model="gpt-6-astra",\n            input="Explain asyncio in one line",\n            instructions="Be brief",\n            max_output_tokens=64,\n        )\n\n    print(response.text)\n    print(response.usage)  # shared TokenUsage\n    print(response.raw)    # OpenAI\'s own Response\n\n\nasyncio.run(main())',
     caption: {
       lead: 'Swap in ',
       highlight: 'AnthropicClient',
@@ -12,7 +12,7 @@ export const examples = [
   {
     id: 'stream',
     label: 'stream.py',
-    code: 'from aiollm.providers.anthropic import AnthropicClient\n\n\nasync def tell(client: AnthropicClient) -> str:\n    text = ""\n    async with client.generation.stream(\n        model="claude-opus-5-5",\n        input="Tell me about hexagons",\n    ) as events:\n        async for delta in events.text():\n            text += delta\n        completed = await events.final()\n\n    print(completed.usage, completed.incomplete_reason)\n    return text',
+    code: 'from aiollm_anthropic import AnthropicClient\n\n\nasync def tell(client: AnthropicClient) -> str:\n    text = ""\n    async with client.generation.stream(\n        model="claude-opus-5-5",\n        input="Tell me about hexagons",\n    ) as events:\n        async for delta in events.text():\n            text += delta\n        completed = await events.final()\n\n    print(completed.usage, completed.incomplete_reason)\n    return text',
     caption: {
       lead: 'A stream cut before its ',
       highlight: 'CompletedEvent',
@@ -34,8 +34,7 @@ export const examples = [
 export const providerExample =
   'from typing import Any\n\nfrom aiollm import GenerationResponse, IGenerationClient\n\n\nasync def summarize(\n    client: IGenerationClient,  # OpenAI, Anthropic, yours\n    model: str,  # choose a model for this provider\n    text: str,\n) -> GenerationResponse[Any]:\n    return await client.generation.create(\n        model=model,\n        input=text,\n        instructions="Summarize in two sentences",\n        max_output_tokens=200,\n        timeout=30,\n    )';
 
-export const installCommand =
-  'pip install git+https://github.com/aiollm-org/aiollm.git';
+export const installCommand = 'pip install aiollm-openai';
 
 export const structuredExample = `from typing import Any
 

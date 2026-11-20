@@ -99,10 +99,12 @@ test('presents the verified release, installation, shared fields, and streaming 
   page,
 }) => {
   await page.goto('/');
-  await expect(page.locator('header .pill')).toHaveText('v0.10.0');
-  await expect(page.locator('#getting-started')).toContainText('not on PyPI');
+  await expect(page.locator('header .pill')).toHaveText('v0.15.0');
+  await expect(page.locator('#getting-started')).toContainText(
+    'pip install aiollm-anthropic',
+  );
   await expect(page.locator('#getting-started .setup-terminal')).toContainText(
-    'uv sync',
+    'pip install aiollm-openai',
   );
   await expect(page.locator('#generation table')).toContainText(
     'output_config.format',
@@ -120,7 +122,7 @@ test('presents the verified release, installation, shared fields, and streaming 
     'APIStreamInterruptedError',
   );
   await expect(page.locator('#docs')).toContainText(
-    'adds function tools to the shared API',
+    'the providers are packages of their own',
   );
   await expect(page.locator('#tools-example')).toContainText(
     'ToolResult(call_id=call.id, output=output)',
@@ -213,7 +215,7 @@ test('copies only the install command and resets feedback', async ({
   await button.click();
   await expect(button).toHaveText('Copied');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    'pip install git+https://github.com/aiollm-org/aiollm.git',
+    'pip install aiollm-openai',
   );
   await expect(button).toHaveText('Copy');
 });
@@ -238,7 +240,7 @@ for (const failure of ['unavailable', 'rejected'] as const) {
     await page.locator('#copy-install').click();
     await expect(page.locator('#copy-install')).toHaveText('Selected');
     expect(await page.evaluate(() => window.getSelection()?.toString())).toBe(
-      'pip install git+https://github.com/aiollm-org/aiollm.git',
+      'pip install aiollm-openai',
     );
   });
 }

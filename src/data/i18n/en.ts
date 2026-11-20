@@ -52,7 +52,7 @@ export const en = {
     description:
       'Describe each API call as a Pydantic model whose generic argument is its result. aiollm sends it over `aiohttp`, retries what is safe to retry, and hands back a validated result your type checker already knows.',
     docs: 'Read the docs',
-    note: 'Not on PyPI yet. Requires Python 3.13 or newer.',
+    note: 'On PyPI as aiollm-core, aiollm-openai and aiollm-anthropic. Requires Python 3.13 or newer.',
     facts: 'Project facts',
     strict: 'strict',
     license: 'license',
@@ -78,14 +78,14 @@ export const en = {
   },
   start: {
     label: 'Get started',
-    title: 'From source to your first typed response',
+    title: 'From pip install to your first typed response',
     description:
-      'Requires Python 3.13+. aiollm is not on PyPI yet; install from the repository and choose the client or endpoint you need.',
+      'Requires Python 3.13+. Install the provider you call; it brings the core, aiollm-core, with it.',
     install: '01 / Install',
-    clone: 'Clone, then sync',
+    clone: 'Install a provider',
     commands: 'Installation commands',
     terminal: 'terminal',
-    pip: 'Using pip? Run `pip install -e .` inside the cloned repository.',
+    pip: 'Only your own API? `pip install aiollm-core`. With uv: `uv add aiollm-openai`.',
     configure: '02 / Configure',
     key: 'Bring your provider key',
     configureDescription:
@@ -275,7 +275,7 @@ export const en = {
       'Follow the guides for the contracts, then use the generated reference for every public type and method.',
     releaseTitle: 'Pre-alpha: new capabilities, an evolving public API',
     releaseBefore:
-      'Version 0.10.0 adds function tools to the shared API: tools and tool_choice in the request, tool calls in responses and streams, and tool results in the conversation. Provider types are now generated from the providers’ schemas, and some of them are renamed. Before 1.0, breaking changes bump the minor version: 0.10 is followed by 0.11. Read the ',
+      'Version 0.15.0 is the first on PyPI: the core is aiollm-core, and the providers are packages of their own, aiollm-openai and aiollm-anthropic, imported as aiollm_openai and aiollm_anthropic. aiollm.testing runs a provider of your own through the scenarios the library’s providers pass. Before 1.0, breaking changes bump the minor version: 0.15 is followed by 0.16. Read the ',
     releaseNotes: 'release notes',
     between: ' and ',
     versioning: 'versioning policy',

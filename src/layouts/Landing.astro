@@ -1,0 +1,120 @@
+---
+import '@fontsource-variable/sora';
+import '@fontsource-variable/ibm-plex-sans';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles.css';
+import { Hero } from '@/components/Hero';
+import Header from '@/components/Header.astro';
+import { Footer } from '@/components/Footer';
+import { GettingStarted } from '@/sections/GettingStarted';
+import { Features } from '@/sections/Features';
+import { SharedGeneration } from '@/sections/SharedGeneration';
+import { Tools } from '@/sections/Tools';
+import { RequestFlow } from '@/sections/RequestFlow';
+import { Providers } from '@/sections/Providers';
+import { Streaming } from '@/sections/Streaming';
+import { Documentation } from '@/sections/Documentation';
+import { FAQ } from '@/sections/FAQ';
+import { getDictionary } from '@/data/i18n';
+import { examples } from '@/data/examples';
+import { localeUrl, type Locale } from '@/lib/locale';
+import { getLogos } from '@/lib/logos';
+import { highlightPython } from '@/lib/highlight';
+import { themeBootScript } from '@/lib/theme';
+import {
+  getLandingStructuredData,
+  indexable,
+  languageAlternates,
+  serializeJsonLd,
+  socialImageUrl,
+} from '@/lib/seo';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const copy = await getDictionary(locale);
+const logos = await getLogos();
+const url = localeUrl(locale);
+const highlighted = examples.map(({ code }) => highlightPython(code));
+const ogLocale = locale === 'ru' ? 'ru_RU' : 'en_US';
+const ogAlternate = locale === 'ru' ? 'en_US' : 'ru_RU';
+---
+
+<!doctype html>
+<html lang={locale} data-theme="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <script is:inline set:html={themeBootScript} />
+    <title>{copy.seo.title}</title>
+    <meta name="description" content={copy.seo.description} />
+    <meta name="application-name" content="aiollm" />
+    <meta name="category" content="developer tools" />
+    <meta
+      name="robots"
+      content={indexable ? 'index, follow' : 'noindex, follow'}
+    />
+    <link rel="canonical" href={url} />
+    {Object.entries(languageAlternates).map(([hreflang, href]) => (
+      <link rel="alternate" hreflang={hreflang} href={href} />
+    ))}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:site_name" content="aiollm" />
+    <meta property="og:title" content={copy.seo.title} />
+    <meta property="og:description" content={copy.seo.description} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogAlternate} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={copy.seo.title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={copy.seo.title} />
+    <meta name="twitter:description" content={copy.seo.description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={copy.seo.title} />
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(getLandingStructuredData(locale, copy))}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#top">
+      {copy.nav.skip}
+    </a>
+    <Header
+      locale={locale}
+      copy={copy.nav}
+      themeLabels={copy.theme}
+      logos={logos}
+    />
+    <main id="top" tabindex="-1">
+      <Hero
+        client:load
+        copy={copy.hero}
+        copyLabels={copy.copy}
+        logos={logos}
+        highlighted={highlighted}
+      />
+      <GettingStarted copy={copy.start} />
+      <Features copy={copy.features} />
+      <SharedGeneration copy={copy.generation} />
+      <Tools copy={copy.tools} />
+      <RequestFlow copy={copy.flow} />
+      <Providers copy={copy.providers} />
+      <Streaming copy={copy.streaming} />
+      <Documentation copy={copy.documentation} />
+      <FAQ copy={copy.faq} />
+    </main>
+    <Footer copy={copy.nav} logos={logos} />
+    <script>
+      import '../scripts/web-vitals';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+name: Pages
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check
+
+  build:
+    # The site that goes live is built on its own: the check above builds the
+    # indexable variant that the tests describe, this one honours the variable.
+    if: github.event_name == 'push'
+    needs: check
+    runs-on: ubuntu-latest
+    env:
+      # Pages on github.io shares its host with the docs, so the landing stays
+      # out of search until aiollm.dev: set the repository variable
+      # SITE_INDEXABLE to "true" at launch.
+      SITE_INDEXABLE: ${{ vars.SITE_INDEXABLE || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

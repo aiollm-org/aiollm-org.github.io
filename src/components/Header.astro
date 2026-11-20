@@ -1,0 +1,54 @@
+---
+import type { Dictionary } from '@/data/i18n/en';
+import type { Locale } from '@/lib/locale';
+import type { Logos } from '@/lib/logos';
+import { project } from '@/data/project';
+import { Logo, GitHubIcon } from './Brand';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { ThemeSwitcher } from './ThemeSwitcher';
+
+interface Props {
+  locale: Locale;
+  copy: Dictionary['nav'];
+  themeLabels: Dictionary['theme'];
+  logos: Logos;
+}
+const { locale, copy, themeLabels, logos } = Astro.props;
+---
+
+<header class="nav">
+  <div class="wrap">
+    <a
+      class="brand flex shrink-0 items-center gap-2.5"
+      href="#top"
+      aria-label={copy.home}
+    >
+      <Logo logos={logos} />
+    </a>
+    <span class="pill">v{project.version}</span>
+    <nav class="nav-links" aria-label={copy.main}>
+      <a class="hide-sm" href="#getting-started">
+        {copy.start}
+      </a>
+      <a class="hide-sm" href={`${project.docs}reference/`}>
+        {copy.reference}
+      </a>
+      <a class="hide-sm" href={`${project.docs}changelog/`}>
+        {copy.changelog}
+      </a>
+      <a class="nav-docs" href={project.docs}>
+        {copy.docs}
+      </a>
+      <a
+        class="gh inline-flex items-center gap-1.5"
+        href={project.repository}
+        aria-label={copy.github}
+      >
+        <GitHubIcon />
+        <span class="hide-sm">GitHub</span>
+      </a>
+      <LanguageSwitcher locale={locale} label={copy.language} />
+      <ThemeSwitcher client:load labels={themeLabels} />
+    </nav>
+  </div>
+</header>

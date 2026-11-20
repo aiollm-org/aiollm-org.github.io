@@ -87,9 +87,9 @@ Aim for LCP ≤ 2.5 s, INP ≤ 200 ms, and CLS ≤ 0.1 at the 75th percentile of
 
 ## Content sources
 
-Reviewed on 2026-11-07 against aiollm **0.10.0**. Content is a maintained snapshot, not fetched from upstream at runtime.
+Reviewed on 2026-11-20 against aiollm **0.15.0**. Content is a maintained snapshot, not fetched from upstream at runtime.
 
-- [README](https://github.com/aiollm-org/aiollm#readme), [package metadata](https://github.com/aiollm-org/aiollm/blob/master/src/aiollm/__meta__.py), and [release notes](https://aiollm-org.github.io/aiollm/changelog/) establish the version, Python requirement, source installation, and pre-alpha status.
+- [README](https://github.com/aiollm-org/aiollm#readme), [package metadata](https://github.com/aiollm-org/aiollm/blob/master/src/aiollm/__meta__.py), and [release notes](https://aiollm-org.github.io/aiollm/changelog/) establish the version, Python requirement, the PyPI packages (`aiollm-core`, `aiollm-openai`, `aiollm-anthropic`), and pre-alpha status.
 - [Shared generation](https://aiollm-org.github.io/aiollm/guide/generation/) and [field mapping](https://aiollm-org.github.io/aiollm/unification/) establish conversations, effort, structured output, reasoning summaries, and provider-specific limits. Structured output is JSON text, not a locally parsed Pydantic response.
 - [Tools](https://aiollm-org.github.io/aiollm/guide/tools/) establishes function tools, tool loops, and streamed tool calls; the 0.10.0 release notes establish the generated provider types.
 - [Streaming](https://aiollm-org.github.io/aiollm/guide/streaming/), [errors](https://aiollm-org.github.io/aiollm/guide/errors/), and [uploads](https://aiollm-org.github.io/aiollm/guide/uploads/) establish terminal checks, bounded retries, and one-shot source behavior.

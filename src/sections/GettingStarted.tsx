@@ -23,9 +23,8 @@ export function GettingStarted({ copy }: { copy: Dictionary['start'] }) {
               </div>
               <ol className="setup-commands">
                 {[
-                  'git clone https://github.com/aiollm-org/aiollm.git',
-                  'cd aiollm',
-                  'uv sync',
+                  'pip install aiollm-openai',
+                  'pip install aiollm-anthropic',
                 ].map((command) => (
                   <li key={command}>
                     <span aria-hidden="true">$</span>

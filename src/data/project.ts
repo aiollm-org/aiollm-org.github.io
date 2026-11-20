@@ -1,13 +1,13 @@
-// Reviewed against the repository, 0.10.0 release notes, and published guides on 2026-11-07.
+// Reviewed against the repository, 0.15.0 release notes, and published guides on 2026-11-20.
 export const project = {
-  version: '0.10.0',
+  version: '0.15.0',
   python: '3.13+',
   repository: 'https://github.com/aiollm-org/aiollm',
   // Where the site is served now. Moving to aiollm.dev: change this line and add public/CNAME.
   landing: 'https://aiollm-org.github.io',
   // The MkDocs site of aiollm on GitHub Pages; docs.aiollm.dev when the docs move.
   docs: 'https://aiollm-org.github.io/aiollm/',
-  reviewedOn: '2026-11-07',
+  reviewedOn: '2026-11-20',
 } as const;
 
 export const documentationPages = [
